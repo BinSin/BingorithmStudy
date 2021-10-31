@@ -23,7 +23,9 @@ public class Solution03 {
         String t2 = "ab";
 
         String s3 = "aaaaaaaaaaaaaaaaaaaa";
-        String t3 = "a";
+        String t3 = "a/aa";
+        String[] aa = t3.split("/");
+        System.out.println(aa.length);
 
         System.out.println(solution(s1, t1));
         System.out.println(solution(s2, t2));

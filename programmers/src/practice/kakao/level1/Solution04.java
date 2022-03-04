@@ -22,7 +22,7 @@ public class Solution04 { // 신고 결과 받기
             String reporter = st.nextToken();
             String reported = st.nextToken();
 
-            if(Objects.isNull(sendMap.get(reporter))) {
+            if (Objects.isNull(sendMap.get(reporter))) {
                 sendMap.put(reporter, new ArrayList<>());
             }
             List<String> list = sendMap.get(reporter);
@@ -39,13 +39,13 @@ public class Solution04 { // 신고 결과 받기
             }
         }
 
-        int index = 0;
-        for (String id : id_list) {
+        for (int i=0; i<id_list.length; i++) {
+            String id = id_list[i];
             if(Objects.isNull(sendMap.get(id))) continue;
-            List<String> sendList = sendMap.get(id);
 
+            List<String> sendList = sendMap.get(id);
             int count = (int) sendList.stream().filter(badUserList::contains).count();
-            answer[index++] = count;
+            answer[i] = count;
         }
 
         return answer;

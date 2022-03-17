@@ -1,4 +1,4 @@
-package sk_2020_03;
+package sk_2022_03_12;
 
 public class Solution01 {
 

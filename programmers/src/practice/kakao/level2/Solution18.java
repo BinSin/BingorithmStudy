@@ -9,14 +9,14 @@ public class Solution18 {
 
     private static char[] numbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
-    private static String convert(int nextNumber, int n) {
+    /*private static String convert(int nextNumber, int n) {
         StringBuilder sb = new StringBuilder();
         while (nextNumber != 0) {
             sb.append(numbers[nextNumber % n]);
             nextNumber /= n;
         }
         return sb.reverse().toString();
-    }
+    }*/
 
     public static String totalString(int n, int t, int m) {
         int size = t * m;
@@ -24,7 +24,7 @@ public class Solution18 {
         sb.append("0");
         int nextNumber = 1;
         while (sb.length() < size) {
-            String next = convert(nextNumber++, n);
+            String next = Integer.toString(nextNumber++, n);
             sb.append(next);
         }
         return sb.toString();
@@ -37,7 +37,7 @@ public class Solution18 {
             int l = m * i + p - 1;
             answer.append(totalString.charAt(l));
         }
-        return answer.toString();
+        return answer.toString().toUpperCase();
     }
 
     public static void main(String[] args) {

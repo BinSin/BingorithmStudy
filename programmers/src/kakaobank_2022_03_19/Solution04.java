@@ -1,16 +1,6 @@
 package kakaobank_2022_03_19;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
-import java.util.concurrent.atomic.LongAccumulator;
+import java.util.*;
 
 public class Solution04 {
 
@@ -36,27 +26,6 @@ public class Solution04 {
             return child;
         }
 
-        public TreeNode addChilds(String childName, List<TreeNode> childNode) {
-            TreeNode child = new TreeNode(childName);
-            child.setParent(this);
-            this.child.addAll(childNode);
-            return child;
-        }
-
-        public void remove(Map<String, TreeNode> map) {
-            map.remove(this.name);
-
-            if(this.child.isEmpty()) {
-                return;
-            }
-
-            for (TreeNode childNode : this.child) {
-
-            }
-
-            child.clear();
-        }
-
     }
 
     private static String[] getNames(String dir) {
@@ -78,20 +47,40 @@ public class Solution04 {
 
     private static void cp(Map<String, TreeNode> map, String dir, String cpDir) {
         TreeNode curNode = map.get(dir);
-        List<TreeNode> childNode = curNode.child;
 
-        String newName = cpDir + dir;
-        TreeNode cpNode = map.get(cpDir);
-        cpNode.addChilds(newName, childNode);
+        String[] names = getNames(dir);
+        String parentName = names[0];
+        String addChildName = names[1];
 
-        for (TreeNode treeNode : cpNode.child) {
-            map.put(cpDir + treeNode.name, treeNode);
+        if (cpDir.equals("/")) {
+            cpDir = "";
+        }
+
+        String newName = cpDir + "/" + addChildName;
+        TreeNode cpNode = map.get(cpDir.equals("") ? "/" : cpDir);
+        cpNode.addChild(newName);
+        map.put(newName, cpNode);
+
+        if (curNode.child == null) return;
+
+        for (TreeNode childNode : curNode.child) {
+            cp(map, dir + "/" + childNode.name, newName);
         }
     }
 
     private static void rm(Map<String, TreeNode> map, String dir) {
         TreeNode curNode = map.get(dir);
-        curNode.remove(map);
+        map.remove(dir);
+
+        if (curNode.child == null) return;
+
+        if(dir.equals("/")) {
+            dir = "";
+        }
+
+        for (TreeNode childNode : curNode.child) {
+            rm(map, dir + "/" + childNode.name);
+        }
     }
 
     public static String[] solution(String[] directory, String[] command) {

@@ -13,10 +13,10 @@ public class Solution02 {
         answer[len - 2] = black_caps[len - 1] == 0 ? 2 : 1;
 
         boolean[] check = new boolean[len];
-        while(true) {
-            int count = 0;
+        while(true) { // answer가 변경된게 없을 때까지 반복
+            int count = 0; // 변경된 사항이 있는지 확인
 
-            // 2 검사
+            // 2 검사 -> 양쪽이 검은색 모자를 착용
             for (int i = 1; i < len - 1; i++) {
                 if (black_caps[i] == 2 && !check[i - 1] && !check[i + 1]) {
                     answer[i - 1] = answer[i + 1] = 1;
@@ -26,7 +26,7 @@ public class Solution02 {
                 }
             }
 
-            // 1 검사
+            // 1 검사 -> 한쪽이 결정되었으면 구분할 수 있음
             for (int i = 1; i < len - 1; i++) {
                 if (black_caps[i] == 1) {
                     if (answer[i - 1] == 1 && !check[i + 1]) {
@@ -48,7 +48,7 @@ public class Solution02 {
                     }
                 }
             }
-            if(count == 0) break;
+            if(count == 0) break; // 변경된게 없으면 종료
         }
 
         return answer;

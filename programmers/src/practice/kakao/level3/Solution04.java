@@ -11,7 +11,6 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
 
-
 public class Solution04 {
 
     private static final Pair[] next = { new Pair(0, 1, -1, 0), new Pair(0, -1, -1, 0), new Pair(1, 0, 1, 0), new Pair(-1, 0, 1, 0) };

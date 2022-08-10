@@ -24,5 +24,4 @@ public class Problem1904 {
         bw.close();
         br.close();
     }
-
 }

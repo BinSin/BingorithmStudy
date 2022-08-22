@@ -3,7 +3,7 @@ BinSin
 https://www.acmicpc.net/problem/1654
  */
 
-package problem.dp;
+package problem;
 
 import java.io.*;
 import java.util.ArrayList;

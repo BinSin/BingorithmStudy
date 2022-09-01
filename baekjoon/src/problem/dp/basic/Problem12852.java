@@ -6,7 +6,7 @@ https://www.acmicpc.net/problem/12852
 package problem.dp.basic;
 
 import java.io.*;
-import java.util.Stack;
+import java.util.ArrayDeque;
 
 public class Problem12852 {
 
@@ -15,8 +15,9 @@ public class Problem12852 {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         int N = Integer.parseInt(br.readLine());
 
-        Stack<Integer>[] dp = new Stack[N+1];
-        for (int i=0; i<=N; i++) dp[i] = new Stack<>();
+        ArrayDeque<Integer>[] dp = new ArrayDeque[N+1];
+
+        for (int i=0; i<=N; i++) dp[i] = new ArrayDeque<>();
         dp[1].add(1); // 초기값 세팅
 
         for (int i=2; i<=N; i++) {
@@ -41,8 +42,8 @@ public class Problem12852 {
                 default : prevNumber = one; break;
             }
 
-            dp[i] = (Stack<Integer>) dp[prevNumber].clone();
-            dp[i].add(i);
+            dp[i].addAll(dp[prevNumber].clone());
+            dp[i].addFirst(i);
         }
 
         bw.write(dp[N].size() - 1 + "\n");

@@ -1,3 +1,8 @@
+/*
+BinSin
+https://www.acmicpc.net/problem/1149
+ */
+
 package problem.dp.basic;
 
 import java.io.*;

@@ -1,6 +1,6 @@
 /*
 BinSin
-https://www.acmicpc.net/problem/1149
+https://www.acmicpc.net/problem/17626
  */
 
 package problem.dp.basic;

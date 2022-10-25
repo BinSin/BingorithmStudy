@@ -1,6 +1,7 @@
 /*
 단체사진 찍기
 https://programmers.co.kr/learn/courses/30/lessons/1835
+분류: 수열
  */
 
 package practice.kakao.level2;

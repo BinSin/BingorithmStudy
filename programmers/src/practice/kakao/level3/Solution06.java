@@ -2,7 +2,7 @@
 BinSin
 https://school.programmers.co.kr/learn/courses/30/lessons/92344
 분류: 누적합
-풀이: https://school.programmers.co.kr/questions/25471
+풀이: https://tech.kakao.com/2022/01/14/2022-kakao-recruitment-round-1/
  */
 
 package practice.kakao.level3;

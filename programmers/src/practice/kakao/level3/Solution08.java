@@ -12,17 +12,22 @@ public class Solution08 {
 
     private static final int MAX_FARE = 100000 * 200 + 1;
 
-    private static class Node {
+    private static class Node implements Comparable<Node> {
         int index, fare;
 
         Node(int index, int fare) {
             this.index = index;
             this.fare = fare;
         }
+
+        @Override
+        public int compareTo(Node o) {
+            return Integer.compare(this.fare, o.fare);
+        }
     }
 
     private static void dijkstra(int s, int[] dist, List<List<Node>> graph) {
-        Queue<Node> q = new PriorityQueue<>(Comparator.comparingInt(o -> o.fare));
+        Queue<Node> q = new PriorityQueue<>();
         q.add(new Node(s, 0)); // 시작 정점
         dist[s] = 0;
 

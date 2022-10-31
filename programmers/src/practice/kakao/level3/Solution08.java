@@ -10,7 +10,7 @@ import java.util.*;
 
 public class Solution08 {
 
-    private static final int MAX_FARE = 100001;
+    private static final int MAX_FARE = 100000 * 200 + 1;
 
     private static class Node {
         int index, fare;
@@ -21,7 +21,7 @@ public class Solution08 {
         }
     }
 
-    private static void dijkstra(int s, int[] dist, List<List<Node>> graph, int n) {
+    private static void dijkstra(int s, int[] dist, List<List<Node>> graph) {
         Queue<Node> q = new PriorityQueue<>(Comparator.comparingInt(o -> o.fare));
         q.add(new Node(s, 0)); // 시작 정점
         dist[s] = 0;
@@ -34,6 +34,7 @@ public class Solution08 {
             List<Node> aroundNodeList = graph.get(node.index);
             for (Node nextNode : aroundNodeList) {
                 if (dist[nextNode.index] <= node.fare + nextNode.fare) continue;
+
                 dist[nextNode.index] = node.fare + nextNode.fare;
                 q.add(new Node(nextNode.index, dist[nextNode.index]));
             }
@@ -59,9 +60,9 @@ public class Solution08 {
         Arrays.fill(distA, MAX_FARE);
         Arrays.fill(distB, MAX_FARE);
 
-        dijkstra(s, dist, graph, n);
-        dijkstra(a, distA, graph, n);
-        dijkstra(b, distB, graph, n);
+        dijkstra(s, dist, graph);
+        dijkstra(a, distA, graph);
+        dijkstra(b, distB, graph);
 
         int answer = Integer.MAX_VALUE;
         for (int i=1; i<=n; i++) answer = Math.min(answer, dist[i] + distA[i] + distB[i]);

@@ -1,7 +1,7 @@
 /*
 BinSin
 https://school.programmers.co.kr/learn/courses/30/lessons/64062
-분류; 이분 탐색
+분류: 이분 탐색
  */
 
 package practice.kakao.level3;

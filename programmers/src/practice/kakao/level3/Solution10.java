@@ -1,6 +1,6 @@
 /*
 BinSin
-nextCost
+https://school.programmers.co.kr/learn/courses/30/lessons/67259
 분류: BFS
  */
 

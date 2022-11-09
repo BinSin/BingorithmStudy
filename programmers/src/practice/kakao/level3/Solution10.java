@@ -7,6 +7,7 @@ https://school.programmers.co.kr/learn/courses/30/lessons/67259
 package practice.kakao.level3;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 
 public class Solution10 {
@@ -24,9 +25,24 @@ public class Solution10 {
     }
 
     private static int getCost(int[][] board, int[][][] costMap, int rowLength, int colLength) {
+        for (int i=0; i<rowLength; i++) {
+            for (int j=0; j<colLength; j++) {
+                Arrays.fill(costMap[i][j], Integer.MAX_VALUE);
+            }
+        }
+
         Deque<Point> q = new ArrayDeque<>();
-        q.add(new Point(0, 0, -1));
-        costMap[0][0][0] = 100;
+
+        if (board[1][0] == 0) {
+            q.add(new Point(1, 0, 3));
+            costMap[1][0][3] = 100;
+        }
+
+        if (board[0][1] == 0) {
+            q.add(new Point(0, 1, 2));
+            costMap[0][1][2] = 100;
+        }
+
         while (!q.isEmpty()) {
             Point p = q.remove();
             int currentDirection = p.direction;
@@ -39,40 +55,28 @@ public class Solution10 {
                 if (nx == 0 && ny == 0) continue;
                 if (nx < 0 || nx >= rowLength || ny < 0 || ny >= colLength) continue;
                 if (board[nx][ny] == 1) continue;
-                if (costMap[nx][ny][nd] != 0) continue;
 
                 int cost = 100;
-                if (currentDirection != -1 && currentDirection != n.direction) {
+                if (currentDirection != n.direction) {
                     cost += 500;
                 }
 
-                int nextCost;
-                if (currentDirection == -1) nextCost = cost;
-                else nextCost = costMap[p.x][p.y][p.direction] + cost;
+                int nextCost = costMap[p.x][p.y][p.direction] + cost;
+                if (costMap[nx][ny][nd] <= nextCost) continue;
                 costMap[nx][ny][nd] = nextCost;
                 q.add(new Point(nx, ny, nd));
             }
         }
 
-        int answer = Integer.MAX_VALUE;
-        for (int i=0; i<4; i++) {
-            if (costMap[rowLength-1][colLength-1][i] == 0) continue;
-            answer = Math.min(answer, costMap[rowLength-1][colLength-1][i]);
-        }
-
-        return answer;
+        return Arrays.stream(costMap[rowLength - 1][colLength - 1]).min().getAsInt();
     }
 
     public static int solution(int[][] board) {
         int rowLength = board.length;
         int colLength = board[0].length;
 
-
-        int answer = Integer.MAX_VALUE;
         int[][][] costMap = new int[rowLength][colLength][4];
-        answer = getCost(board, costMap, rowLength, colLength);
-
-        return answer;
+        return getCost(board, costMap, rowLength, colLength);
     }
 
     public static void main(String[] args) {

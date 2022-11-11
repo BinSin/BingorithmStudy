@@ -22,7 +22,8 @@ public class Solution11 {
         int count = 0; // 버스 인원
         LocalTime busTime = LocalTime.of(9, 0); // 버스 시간
         Arrays.sort(timetable);
-        for (String time : timetable) {
+        for (int i=0; i<timetable.length; i++) {
+            String time = timetable[i];
             String[] timeArr = time.split(":");
             LocalTime currentTime = LocalTime.of(Integer.parseInt(timeArr[0]), Integer.parseInt(timeArr[1]));
 
@@ -30,13 +31,17 @@ public class Solution11 {
             if (count == m || currentTime.isAfter(busTime)) {
                 busTime = busTime.plusMinutes(t);
                 count = 0;
+                i--;
+
+                if (busTime.isAfter(lastTime)) break;
+                continue;
             }
 
             map.computeIfAbsent(busTime, k -> new ArrayList<>());
             map.get(busTime).add(currentTime);
             count++;
 
-            if (busTime.isAfter(lastTime)) break;
+
         }
 
         List<LocalTime> lastList = map.getOrDefault(lastTime, new ArrayList<>());
@@ -53,12 +58,16 @@ public class Solution11 {
         String[] timetable2 = {"09:10", "09:09", "08:00"};
         System.out.println(solution(n2, t2, m2, timetable2));
 
-        int n3 = 3, t3 = 1, m3 = 2;
-        String[] timetable3 = {"06:00", "23:59", "05:48", "00:01", "00:01"};
+        int n3 = 10, t3 = 60, m3 = 5;
+        String[] timetable3 = {"18:00", "18:00", "18:00", "18:00", "18:00"};
         System.out.println(solution(n3, t3, m3, timetable3));
 
         int n4 = 2, t4 = 1, m4 = 2;
         String[] timetable4 = {"09:00", "09:00", "09:00", "09:00"};
         System.out.println(solution(n4, t4, m4, timetable4));
+
+        int n5 = 10, t5 = 60, m5 = 5;
+        String[] timetable5 = {"23:59","23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59"};
+        System.out.println(solution(n5, t5, m5, timetable5));
     }
 }

@@ -1,7 +1,7 @@
 /*
 BinSin
 https://school.programmers.co.kr/learn/courses/30/lessons/77486
-분류: 컬렉션 활용
+분류: Map
  */
 
 package practice.kakao.level3;
@@ -21,39 +21,30 @@ public class Solution12 {
         }
     }
 
-    // 1. 이름에 따른 depth 저장
-    // 2. depth 가 깊은 순서대로 parent 에 이익 전달
-    // 3. enroll 순서대로 answer 세팅
     public static int[] solution(String[] enrollArr, String[] referralArr, String[] sellerArr, int[] amountArr) {
         Map<String, Node> enrollMap = new HashMap<>();
-        Map<Integer, List<String>> depthMap = new HashMap<>();
         for (int i=0; i<enrollArr.length; i++) {
             String enroll = enrollArr[i];
             String referral = referralArr[i];
-
-            int depth = 1;
             enrollMap.put(enroll, new Node(referral, 0));
-
-            depthMap.computeIfAbsent(depth, k -> new ArrayList<>());
-            depthMap.get(depth).add(enroll);
         }
 
         for (int i=0; i<sellerArr.length; i++) {
             String seller = sellerArr[i];
             int amount = amountArr[i] * 100;
-            int parentProfit = amount / 10;
+
             Node node = enrollMap.get(seller);
 
             while(true) {
-                int currentProfit = amount - parentProfit;
-                node.profit += currentProfit;
-                if("-".equals(node.parent)) break;
-                if (parentProfit == 0) break;
+                int parentProfit = amount / 10;
+                int myProfit = amount - parentProfit;
+                amount = parentProfit;
 
-                amount = currentProfit;
-                parentProfit = (int) Math.ceil((double) amount / 10);
+                node.profit += myProfit;
+                if("-".equals(node.parent)) break; // 최상위 부모면 스톱
+                if (parentProfit == 0) break; // 부모에 더이상 전달한 이익이 없다면 스톱
 
-                node = enrollMap.get(node.parent);
+                node = enrollMap.get(node.parent); // 부모가 있다면 이익 전달
             }
         }
 

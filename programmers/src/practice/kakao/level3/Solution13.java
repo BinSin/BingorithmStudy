@@ -10,45 +10,66 @@ import java.util.*;
 
 public class Solution13 {
 
-    public static String solution(int n, int k, String[] cmd) {
-        Set<Integer> set = new TreeSet<>();
-        for (int i=0; i<n; i++) set.add(i);
+    private static class Node {
+        int number, prev, next;
 
+        public Node(int number, int prev, int next) {
+            this.number = number;
+            this.prev = prev;
+            this.next = next;
+        }
+    }
+
+    public static String solution(int n, int k, String[] cmd) {
+        List<Node> list = new LinkedList<>();
+        for (int i=0; i<n; i++) {
+            list.add(new Node(i, i-1, i+1));
+        }
+        list.get(n-1).next = -1;
+
+        StringBuilder sb = new StringBuilder("O".repeat(n));
         int selectIndex = k;
-        Deque<Integer> stack = new ArrayDeque<>();
+        Deque<Node> stack = new ArrayDeque<>();
         for (String c : cmd) {
             String[] cArr = c.split(" ");
             switch (cArr[0]) {
                 case "C" -> {
-                    int selectNumber = (int) set.toArray()[selectIndex];
-                    stack.add(selectNumber);
-                    set.remove(selectNumber);
-                    if (selectIndex == set.size()) selectIndex--; // 삭제된 행이 가장 마지막 행인 경우 바로 윗 행을 선택
+                    Node selectNode = list.get(selectIndex);
+                    int current = selectNode.number;
+                    int prev = selectNode.prev;
+                    int next = selectNode.next;
+
+                    stack.add(selectNode);
+                    if (prev != -1) list.get(prev).next = next;
+                    if (next != -1) list.get(next).prev = prev;
+                    sb.setCharAt(current, 'X');
+
+                    if (next != -1) selectIndex = list.get(selectIndex).next;
+                    else selectIndex = list.get(selectIndex).prev; // 삭제된 행이 가장 마지막 행인 경우 바로 윗 행을 선택
                 }
                 case "Z" -> {
-                    int recoveryNumber = stack.removeLast();
-                    set.add(recoveryNumber);
-                    if (selectIndex >= recoveryNumber) selectIndex++;
+                    Node recoveryNode = stack.removeLast();
+                    int current = recoveryNode.number;
+                    int prev = recoveryNode.prev;
+                    int next = recoveryNode.next;
+
+                    if (prev != -1) list.get(prev).next = current;
+                    if (next != -1) list.get(next).prev = current;
+                    sb.setCharAt(current, 'O');
                 }
                 case "D" -> {
                     int move = Integer.parseInt(cArr[1]);
-                    selectIndex += move;
+                    while (move-- > 0) {
+                        selectIndex = list.get(selectIndex).next;
+                    }
                 }
                 case "U" -> {
                     int move = Integer.parseInt(cArr[1]);
-                    selectIndex -= move;
+                    while (move-- > 0) {
+                        selectIndex = list.get(selectIndex).prev;
+                    }
                 }
             }
-        }
-
-        StringBuilder sb = new StringBuilder();
-        Object[] setArr = set.toArray();
-        for (int i=0, j=0; i<n; i++) {
-            if ((int) setArr[j] == i) {
-                sb.append("O");
-                j++;
-            }
-            else sb.append("X");
         }
 
         return sb.toString();

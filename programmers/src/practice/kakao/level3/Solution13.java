@@ -21,11 +21,11 @@ public class Solution13 {
     }
 
     public static String solution(int n, int k, String[] cmd) {
-        List<Node> list = new LinkedList<>();
+        Node[] nodeArr = new Node[n];
         for (int i=0; i<n; i++) {
-            list.add(new Node(i, i-1, i+1));
+            nodeArr[i] = new Node(i, i-1, i+1);
         }
-        list.get(n-1).next = -1;
+        nodeArr[n-1].next = -1;
 
         StringBuilder sb = new StringBuilder("O".repeat(n));
         int selectIndex = k;
@@ -34,18 +34,18 @@ public class Solution13 {
             String[] cArr = c.split(" ");
             switch (cArr[0]) {
                 case "C" -> {
-                    Node selectNode = list.get(selectIndex);
+                    Node selectNode = nodeArr[selectIndex];
                     int current = selectNode.number;
                     int prev = selectNode.prev;
                     int next = selectNode.next;
 
                     stack.add(selectNode);
-                    if (prev != -1) list.get(prev).next = next;
-                    if (next != -1) list.get(next).prev = prev;
+                    if (prev != -1) nodeArr[prev].next = next;
+                    if (next != -1) nodeArr[next].prev = prev;
                     sb.setCharAt(current, 'X');
 
-                    if (next != -1) selectIndex = list.get(selectIndex).next;
-                    else selectIndex = list.get(selectIndex).prev; // 삭제된 행이 가장 마지막 행인 경우 바로 윗 행을 선택
+                    if (next != -1) selectIndex = nodeArr[selectIndex].next;
+                    else selectIndex = nodeArr[selectIndex].prev; // 삭제된 행이 가장 마지막 행인 경우 바로 윗 행을 선택
                 }
                 case "Z" -> {
                     Node recoveryNode = stack.removeLast();
@@ -53,25 +53,24 @@ public class Solution13 {
                     int prev = recoveryNode.prev;
                     int next = recoveryNode.next;
 
-                    if (prev != -1) list.get(prev).next = current;
-                    if (next != -1) list.get(next).prev = current;
+                    if (prev != -1) nodeArr[prev].next = current;
+                    if (next != -1) nodeArr[next].prev = current;
                     sb.setCharAt(current, 'O');
                 }
                 case "D" -> {
                     int move = Integer.parseInt(cArr[1]);
                     while (move-- > 0) {
-                        selectIndex = list.get(selectIndex).next;
+                        selectIndex = nodeArr[selectIndex].next;
                     }
                 }
                 case "U" -> {
                     int move = Integer.parseInt(cArr[1]);
                     while (move-- > 0) {
-                        selectIndex = list.get(selectIndex).prev;
+                        selectIndex = nodeArr[selectIndex].prev;
                     }
                 }
             }
         }
-
         return sb.toString();
     }
 

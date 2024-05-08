@@ -15,6 +15,8 @@ import java.util.Map;
 
 public class Solution11 {
 
+  private static DateTimeFormatter formatter =  DateTimeFormatter.ofPattern("yyyy.MM.dd");
+
   public static int[] solution(String todayStr, String[] terms, String[] privacies) {
     List<Integer> answer = new ArrayList<>();
 
@@ -48,7 +50,6 @@ public class Solution11 {
 
   // 내부적으로는 문자열을 분석하고, 해당 문자열이 유효한 날짜 형식을 따르는지 검증하는 과정을 거쳐 오버헤드가 더 발생함
   private static LocalDate changeStringToLocalDate2(String today) {
-    DateTimeFormatter formatter =  DateTimeFormatter.ofPattern("yyyy.MM.dd");
     return LocalDate.parse(today, formatter);
   }
 
